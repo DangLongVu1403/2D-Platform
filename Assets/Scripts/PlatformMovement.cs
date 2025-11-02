@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ public class PlatformMovement : MonoBehaviour
 {
     [SerializeField] private Transform posA;
     [SerializeField] private Transform posB;
+    [SerializeField] private Transform empty;
     [SerializeField] private float speed;
     private Vector2 targetPos;
 
@@ -33,7 +34,7 @@ public class PlatformMovement : MonoBehaviour
     {
         if (collision.CompareTag("Player") && gameObject.activeInHierarchy)
         {
-            collision.transform.parent = this.transform;
+            collision.transform.SetParent(empty);
         }
     }
 

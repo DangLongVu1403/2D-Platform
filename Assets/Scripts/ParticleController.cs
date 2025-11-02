@@ -28,7 +28,7 @@ public class ParticleController : MonoBehaviour
     void Update()
     {
         counter += Time.deltaTime;
-        if(isOnGround && Mathf.Abs(playerRb.velocity.x) > occurAfterVelocity)
+        if(isOnGround && Mathf.Abs(playerRb.linearVelocity.x) > occurAfterVelocity)
         {
             if(counter >= dustFormationPeriod)
             {

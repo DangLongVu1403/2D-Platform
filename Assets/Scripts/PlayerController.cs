@@ -22,9 +22,11 @@ public class PlayerController : MonoBehaviour
 
     Vector2 vecGravity;
     [SerializeField] private float fallMultiplier = 2f;
-    [SerializeField] private ParticleController particleController;
+    //[SerializeField] private ParticleController particleController;
 
-    private bool facingRight = true; 
+    private bool facingRight = true;
+
+    [SerializeField] private AudioSource jump;
 
     void Start()
     {
@@ -41,7 +43,8 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jump.PlayOneShot(jump.clip);
         }
     }
 
@@ -49,11 +52,11 @@ public class PlayerController : MonoBehaviour
     {
         CheckGrounded();
         UpdateSpeed();
-        rb.velocity = new Vector2(vectorMove.x * currentSpeed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(vectorMove.x * currentSpeed, rb.linearVelocity.y);
 
-        if (rb.velocity.y < 0)
+        if (rb.linearVelocity.y < 0)
         {
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
         }
 
         Flip(); 
@@ -70,16 +73,12 @@ public class PlayerController : MonoBehaviour
         if (vectorMove.x > 0 && !facingRight)
         {
             facingRight = true;
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Abs(scale.x);
-            transform.localScale = scale;
+            spriteRenderer.flipX = false;
         }
         else if (vectorMove.x < 0 && facingRight)
         {
             facingRight = false;
-            Vector3 scale = transform.localScale;
-            scale.x = -Mathf.Abs(scale.x);
-            transform.localScale = scale;
+            spriteRenderer.flipX = true;
         }
     }
 

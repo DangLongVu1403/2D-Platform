@@ -10,6 +10,8 @@ public class CheckPointController : MonoBehaviour
     [SerializeField] Sprite checkPoint;
     [SerializeField] Sprite checkPointActive;
     Collider2D col;
+
+    [SerializeField] private AudioSource checkpoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,7 @@ public class CheckPointController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            checkpoint.PlayOneShot(checkpoint.clip);
             controller.UpdateCheckPoint(respawnPoint.position);
             sprite.sprite = checkPointActive;
             col.enabled = false;
